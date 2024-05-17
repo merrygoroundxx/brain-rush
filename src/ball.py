@@ -12,7 +12,7 @@ class Ball:
             pos_x = random.randint(0,CONST.DISPLAY_SIZE_X)
             pos_y = random.randint(60,CONST.DISPLAY_SIZE_Y)
             if (pos_x < hero.pos.x or pos_x > (hero.pos.x + hero.width)) and (pos_y < hero.pos.y or pos_y > (hero.pos.y + hero.height)):
-                # faz ele ficar dentro da borda pré estabelecida
+                # 使其停留在预先确定的边界内
                 if (pos_x > CONST.BRAIN_RESPAWN_BORDER and
                     pos_x < CONST.DISPLAY_SIZE_X - CONST.BRAIN_RESPAWN_BORDER and
                     pos_y > CONST.BRAIN_RESPAWN_BORDER and

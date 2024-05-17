@@ -25,7 +25,7 @@ class GameWindow:
         placar_font = pygame.font.SysFont('Comic Sans MS', 20)
 
         score = 0
-        score_text_surface = game_font.render('Pontos: '+str(score), False,(255,255,255))
+        score_text_surface = game_font.render('Score: '+str(score), False,(255,255,255))
 
         placar = 35
         name = "Carlitos"
@@ -40,11 +40,11 @@ class GameWindow:
                 _image_library[path] = image
             return image
 
-        # variaveis do heroi
+        # hero变量
         hero = Zombie()
         hero_group = pygame.sprite.Group(hero)
 
-        # variaveis da bolinha
+        # ball(brain)变量
         ball = Ball()
         ball.set_random_position(hero)
 
@@ -96,7 +96,7 @@ class GameWindow:
                     if time_left > 0:
                         seconds=(pygame.time.get_ticks()-start_ticks)/1000
 
-                        # configura as probabilidades de bug
+                        # 配置bug几率
                         if seconds < 8:
                             error_probability = 0
                         elif seconds < 25:
@@ -115,7 +115,7 @@ class GameWindow:
                         if error_probability == 3:
                             hero.human_error()
                           
-                        if (seconds % 5) == 0:
+                        if (int(seconds) % 5) == 0:
                             hero.zombie_scream()
 
                         #countDown sound     
@@ -150,16 +150,20 @@ class GameWindow:
                     else:
                         done = True
                         
-                        # salva os dados coletados
-                        dir_path = data_harvest.player_name + "-" + str(datetime.datetime.now())
+                        # 保存收集的数据
+                        dir_path = data_harvest.player_name + "-" + datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+                        # dir_path = data_harvest.player_name + "-" + str(datetime.datetime.now())
                         os.makedirs('data/'+dir_path)
                         pd.DataFrame(data_harvest.pressed_keys).to_csv("data/"+dir_path+"/pressed_keys.csv",index=None,header=['PRESSED_KEY','TIME'])
                         pd.DataFrame(data_harvest.random_events).to_csv("data/"+dir_path+"/random_events.csv",index=None,header=['RANDOM_EVENT','TIME'])
                         pd.DataFrame(data_harvest.hero_movement).to_csv("data/"+dir_path+"/hero_movement.csv",index=None,header=['DIRECTION','SPEED','TIME'])
                         data_harvest.final_score = score
                         pd.DataFrame([data_harvest.final_score]).to_csv("data/"+dir_path+"/"+data_harvest.player_name,index=None,header=['SCORE'])
+
+                        
+                        
             
-            # pega as teclas pressionadas
+            # 按下按键
             pressed = pygame.key.get_pressed()
             
             if pressed[pygame.K_ESCAPE]:
@@ -174,16 +178,16 @@ class GameWindow:
                     hero.move_left()
                 elif pressed[pygame.K_RIGHT]:
                     hero.move_right()
-            # checa se a bola está dentro do heroi
+            # 检查球是否在英雄体内
             if hero.has_ball_inside(ball):
                 data_harvest.random_events.append(['ZOMBIE_EATS',datetime.datetime.now()])
                 score += 1
-                score_text_surface = game_font.render('Pontos: ' + str(score), False,(255,255,255))
+                score_text_surface = game_font.render('Score: ' + str(score), False,(255,255,255))
                 hero.bite()
                 ball.set_random_position(hero)
                 time_left += 2
 
-            # atualiza o tempo
+            # 更新时间
             if time_left < 6:
                 time_text_surface = game_font.render(str(time_left), False,(255,0,0))
             else:
