@@ -123,27 +123,27 @@ class GameWindow:
                             for i in range (0,6):
                                 alreadySaid[i] = False
                         if (time_left == 6 and alreadySaid[time_left-1] == False):
-                            countdown = pygame.mixer.Sound('src/sounds/5.wav')
+                            countdown = pygame.mixer.Sound('sounds/5.wav')
                             alreadySaid[time_left-1] = True
                             countdown.play()
                         if (time_left == 5 and alreadySaid[time_left-1] == False) :
-                            countdown = pygame.mixer.Sound('src/sounds/4.wav')
+                            countdown = pygame.mixer.Sound('sounds/4.wav')
                             alreadySaid[time_left-1] = True
                             countdown.play()
                         if (time_left == 4 and alreadySaid[time_left-1] == False):
-                            countdown = pygame.mixer.Sound('src/sounds/3.wav')
+                            countdown = pygame.mixer.Sound('sounds/3.wav')
                             alreadySaid[time_left-1] = True
                             countdown.play()
                         if (time_left == 3 and alreadySaid[time_left-1] == False):
-                            countdown = pygame.mixer.Sound('src/sounds/2.wav')
+                            countdown = pygame.mixer.Sound('sounds/2.wav')
                             alreadySaid[time_left-1] = True
                             countdown.play()
                         if (time_left == 2 and alreadySaid[time_left-1] == False):
-                            countdown = pygame.mixer.Sound('src/sounds/1.wav')
+                            countdown = pygame.mixer.Sound('sounds/1.wav')
                             alreadySaid[time_left-1] = True
                             countdown.play()
                         if (time_left == 1 and alreadySaid[time_left-1] == False):
-                            countdown = pygame.mixer.Sound('src/sounds/0.wav')
+                            countdown = pygame.mixer.Sound('sounds/0.wav')
                             alreadySaid[time_left-1] = True
                             countdown.play()
                         time_left -= 1
