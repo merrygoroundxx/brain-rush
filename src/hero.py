@@ -7,6 +7,8 @@ from src.position import Position
 from src.ball import Ball
 import src.const as CONST
 import src.data_harvest as data_harvest
+import parallel
+import src.send_trigger as send_trigger
 
 class Zombie(pygame.sprite.Sprite):
     def __init__(self):
@@ -117,10 +119,12 @@ class Zombie(pygame.sprite.Sprite):
                 self.speed = CONST.ZOMBIE_SPEED
                 self.SLOWED_DOWN = False
                 data_harvest.random_events.append(['END_SLOW_DOWN',datetime.datetime.now()])
+                
 
         # faz ele sair do modo random_movement depois de um tempo
         if self.RANDOM_MOVEMENT:
-            if pygame.time.get_ticks() - self.start_random_movement > 3000:
+            if pygame.time.get_ticks() - self.start_random_movement > 2000:
+            #每次随机移动触发时间为2s
                 self.RANDOM_MOVEMENT = False
                 data_harvest.random_events.append(['END_RANDOM_MOVEMENT',datetime.datetime.now()])
 
@@ -138,6 +142,7 @@ class Zombie(pygame.sprite.Sprite):
     def slow_down(self):
         if not self.SLOWED_DOWN or not self.RANDOM_MOVEMENT:
             data_harvest.random_events.append(['START_SLOW_DOWN',datetime.datetime.now()])
+            send_trigger(3)
             self.speed = CONST.ZOMBIE_SLOWER_SPEED
             self.SLOWED_DOWN = True
             self.start_slow_down = pygame.time.get_ticks()
@@ -145,6 +150,7 @@ class Zombie(pygame.sprite.Sprite):
     def random_movement(self):
         if not self.SLOWED_DOWN or not self.RANDOM_MOVEMENT:
             data_harvest.random_events.append(['START_RANDOM_MOVEMENT',datetime.datetime.now()])
+            send_trigger(2)
             self.RANDOM_MOVEMENT = True
             self.drawn_rand_direction = random.randint(0,3)
             self.start_random_movement = pygame.time.get_ticks()
@@ -152,6 +158,7 @@ class Zombie(pygame.sprite.Sprite):
     def human_error(self):
         if not self.SLOWED_DOWN or not self.RANDOM_MOVEMENT:
             data_harvest.random_events.append(['START_HUMAN_ERROR',datetime.datetime.now()])
+            send_trigger(1)
             erro = pygame.mixer.Sound('sounds/human_error.wav')
             erro.play()
             time.sleep(1)
@@ -159,6 +166,7 @@ class Zombie(pygame.sprite.Sprite):
 
     def zombie_scream(self):
         data_harvest.random_events.append(['ZOMBIE_SCREAM',datetime.datetime.now()])
+        send_trigger(4)
         erro = pygame.mixer.Sound('sounds/erro.wav')
         erro.play()
 
