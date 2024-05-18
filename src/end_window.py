@@ -2,9 +2,8 @@
 import os
 import pygame
 import src.const as CONST
-import parallel
 import time
-import src.send_trigger as send_trigger
+from src.send_trigger import Trigger
 
 
 _image_library = {}
@@ -13,7 +12,8 @@ class EndWindow:
 
         pygame.mixer.music.load('sounds/riso.wav')
         pygame.mixer.music.play(0)
-        send_trigger(6)
+        trigger_instance = Trigger()
+        trigger_instance.send_trigger(6)
         
         screen = pygame.display.set_mode((CONST.DISPLAY_SIZE_X, CONST.DISPLAY_SIZE_Y))
         done = False

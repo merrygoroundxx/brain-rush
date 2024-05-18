@@ -9,9 +9,8 @@ from src.hero import Zombie
 from src.ball import Ball
 import src.const as CONST
 import src.data_harvest as data_harvest
-import parallel
 import time
-import src.send_trigger as send_trigger
+from src.send_trigger import Trigger
 
 
 _image_library = {}
@@ -34,7 +33,8 @@ class GameWindow:
         name = "Carlitos"
         placar_text_surface = placar_font.render('Melhor Jogador: ' + name + ' - '+str(placar), False, (0,0,255))
         #信号0：游戏开始
-        send_trigger(0)
+        trigger_instance = Trigger()
+        trigger_instance.send_trigger(7)
 
         def get_image(path):
             global _image_library
@@ -186,7 +186,8 @@ class GameWindow:
             # 检查球是否在英雄体内
             if hero.has_ball_inside(ball):
                 data_harvest.random_events.append(['ZOMBIE_EATS',datetime.datetime.now()])
-                send_trigger(5)
+                trigger_instance = Trigger()
+                trigger_instance.send_trigger(5)
                 score += 1
                 score_text_surface = game_font.render('Score: ' + str(score), False,(255,255,255))
                 hero.bite()
